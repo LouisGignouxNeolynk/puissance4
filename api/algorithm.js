@@ -1,4 +1,4 @@
-import * as Board from './board.js'
+const Board = require('./board')
 
 // The best possible position : the player has won
 const maxNote = 1000
@@ -13,7 +13,7 @@ const startingNote = -3000
 const maxDepth = 10
 
 // The computer searches its best possible moves through a couple of algorithms
-export function runComputerMove(color, board) {
+function runComputerMove(color, board) {
     const legalMoves = generateLegalMoves(board)
         .map(move => ({ column: move, note: 0 }))
 
@@ -76,7 +76,7 @@ function generateLegalMoves(board) {
 }
 
 // Check if the player has won
-export function hasPlayerWon(color, board) {
+function hasPlayerWon(color, board) {
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 7; j++) {
             // Searches for columns of 4
@@ -114,4 +114,9 @@ function evaluate(color, board) {
         }
     }
     return note
+}
+
+module.exports = {
+    hasPlayerWon,
+    runComputerMove
 }

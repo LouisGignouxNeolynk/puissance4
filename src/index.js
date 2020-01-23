@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import * as Gamestate from './gamestate.js'
+import * as Api from './service.js'
 
 // The computer updates the display when it is done thinking
 export function updateDisplay(gamestate) {
@@ -10,12 +10,23 @@ export function updateDisplay(gamestate) {
 
 // When an inserter is clicked, a piece is inserted in the column of this button
 function handleInserterClick(id, gamestate) {
-    if (!gamestate.gameOver && !gamestate.computerIsThinking) // Don't play when the computer is thinking
-        Gamestate.humanPlays(id, gamestate)
+    if (!gamestate.gameOver && !gamestate.computerIsThinking) {// Don't play when the computer is thinking
+        gamestate = Api.playMove(gamestate.currentPlayer, id)
+        updateDisplay(gamestate)
+        setTimeout(() => {
+            if (gamestate.currentPlayer === -1) {
+                const computerBestMove = Api.getComputerBestMove(gamestate.currentPlayer)
+                gamestate = Api.playMove(gamestate.currentPlayer, computerBestMove)
+                updateDisplay(gamestate)
+            }
+        }, 0)
+    }
 }
 
+// When clicking on 'Start new game' button
 function handleNewGameClick() {
-    displayBoard(Gamestate.initNewGamestate())
+    const gamestate = Api.startNewGame()
+    displayBoard(gamestate)
 }
 
 // Displays a square of the board
@@ -92,4 +103,5 @@ function displayBoard(gamestate) {
     ReactDOM.render(element, document.getElementById('root'))
 }
 
-displayBoard(Gamestate.initNewGamestate())
+const startingGame = Api.startNewGame()
+displayBoard(startingGame)

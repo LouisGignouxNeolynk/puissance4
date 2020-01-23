@@ -1,5 +1,5 @@
 // Create board at the start of the game
-export function initNewBoard() {
+function initNewBoard() {
     return [
         [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
@@ -12,12 +12,12 @@ export function initNewBoard() {
 }
 
 // Check if it is possible to add a piece in a given column
-export function isThereRoomLeftInColumn(column, board) {
+function isThereRoomLeftInColumn(column, board) {
     return board[0][column] === 0
 }
 
 // Undoes last move (remove top piece from the given column)
-export function undoLastMove(column, board) {
+function undoLastMove(column, board) {
     let i = 0
     while(board[i][column] === 0) {
         i++
@@ -27,7 +27,7 @@ export function undoLastMove(column, board) {
 }
 
 // Plays a move
-export function addPieceInColumn(column, color, board) {
+function addPieceInColumn(column, color, board) {
     let i = 6
     while(board[i][column] !== 0) {
         i--
@@ -37,7 +37,7 @@ export function addPieceInColumn(column, color, board) {
 }
 
 // If a player has won, we colorize winning squares
-export function highlightWinningSquares(color, board, gamestate) {
+function highlightWinningSquares(color, board, gamestate) {
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 7; j++) {
             // Searches for columns of 4
@@ -57,4 +57,12 @@ export function highlightWinningSquares(color, board, gamestate) {
             }
         }
     }
+}
+
+module.exports = {
+    addPieceInColumn,
+    highlightWinningSquares,
+    initNewBoard,
+    isThereRoomLeftInColumn,
+    undoLastMove
 }
